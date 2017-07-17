@@ -108,8 +108,6 @@ class Popular extends React.Component{
     });
 
     api.fetchPopularRepos(lang)
-      .then( function(repos) {
-        // console.log(repos);
       .then( function(repos){
         console.log(repos);
         this.setState( function() {
@@ -118,7 +116,6 @@ class Popular extends React.Component{
           }
         })
     }.bind(this) );
-    }.bind(this));
   }
 
   render () {
@@ -130,12 +127,7 @@ class Popular extends React.Component{
         />
         {(!this.state.repos)
           ? <p>LOADING</p>
-          : <RepoGrid repos={this.state.repos} /> }        
-      </div>
-      { !this.state.repos ?
-        <p>LOADING</p> :
-        <RepoGrid repos={this.state.repos}/> }
-
+          : <RepoGrid repos={this.state.repos} /> }
       </div>
     )
   }

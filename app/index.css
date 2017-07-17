@@ -116,7 +116,11 @@ li {
   border-radius: 10%;
 }
 
-
 .space-list-items {
   margin-bottom: 10px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-around;
 }
