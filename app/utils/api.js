@@ -32,6 +32,32 @@ function calculateScore (profile, repos) {
   return (followers * 3) + totalStars;
 }
 
+function handleError (error) {
+  console.warn(error);
+  return null;
+}
+
+function getUserData(player) {
+  return axios.all([
+      getProfile(player),
+      getRepos(player)
+    ]).then (function (){
+    var profile = data[0];
+    var repos = data[1];
+
+    return {
+      profile: profile,
+      score: calculateScore(profile, repos);
+    }
+  })
+}
+
+function sortPlayers(players) {
+  return players.sort(function(a, b){
+    return b.score - a.score;
+  });
+}
+
 module.exports = {
   fetchPopularRepos: function (language) {
     var encodedURI =
