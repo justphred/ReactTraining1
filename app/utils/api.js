@@ -37,11 +37,15 @@ function handleError (error) {
   return null;
 }
 
+// axios.all() takes an array of asynchronous functions which return promises,
+// as its parameter. Once all of the asynchronous operations have been resolved,
+// it, returns an array that contains the results of each of those functions.
+
 function getUserData(player) {
   return axios.all([
       getProfile(player),
       getRepos(player)
-    ]).then (function (){
+    ]).then (function (data){
     var profile = data[0];
     var repos = data[1];
 
@@ -49,7 +53,7 @@ function getUserData(player) {
       profile: profile,
       score: calculateScore(profile, repos);
     }
-  })
+  })+
 }
 
 function sortPlayers(players) {
@@ -59,6 +63,12 @@ function sortPlayers(players) {
 }
 
 module.exports = {
+  battle: function (players) {
+    return axios.all(players.map(getUserData))
+      .then(sortPlayers)
+      .catch(handleError);
+  },
+
   fetchPopularRepos: function (language) {
     var encodedURI =
        window.encodeURI('https://api.github.com/search/repositories?q=stars:>1+language:'+ language + '&sort=stars&order=desc&type=Repositories');
@@ -68,3 +78,10 @@ module.exports = {
       });
   }
 }
+
+
+
+
+
+
+//asdfasdfasdf
