@@ -3,16 +3,16 @@ var axios = require('axios');
 // Github client id and "secret id" will be required if you hit then
 // the Github api interface too often within some period of time.
 // "Google" Github client id to figure out how to get one.
-// var personalAccessToken = 45f131268215b0b480af7a3ffc1e3eae0842872b
+// var personalAccessToken = ""
 // curl -u username:token https://api.github.com/user
-// curl -u justphred:45f131268215b0b480af7a3ffc1e3eae0842872b https://api.github.com/justphred
+// curl -u justphred:personalAccessToken https://api.github.com/justphred
 // var github_id = "MY_CLIENT_ID";
 // var github_sec_id = "MY_SECRET_ID";
 var myUserId = "justphred";
-var myPersAccessToken = "45f131268215b0b480af7a3ffc1e3eae0842872b";
+var myPersAccessToken = "";
 // var params = "?client_id=" + github_id + "&client_secret" + github_sec_id;
-var params = "?client_id=" + myUserId + "&client_secret" + myPersAccessToken;
-//var params = "";
+//var params = "?client_id=" + myUserId + "&client_secret" + myPersAccessToken;
+var params = "";
 
 function getProfile( username ) {
    return axios.get("https://api.github.com/users/" + username + params)
