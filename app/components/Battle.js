@@ -3,30 +3,79 @@ var PropTypes = require('prop-types');
 var Link = require("react-router-dom").Link;
 var PlayerPreview = require("./PlayerPreview");
 
-// function PlayerPreview (props) {
-//   return(
-//     <div>
-//       <div className="column">
-//         <img className="avatar"
-//           src={props.avatar}
-//           alt={"Avatar for " + props.username} />
-//         <h2 className="username">@{props.username}</h2>
-//         <button
-//           className="reset"
-//           onClick={props.onReset.bind(null, props.id)} >
-//             Reset
-//         </button>
-//       </div>
-//     </div>
-//   )
-// }
-//
-// PlayerPreview.propTypes = {
-//   avatar: PropTypes.string.isRequired,
-//   id: PropTypes.string.isRequired,
-//   username: PropTypes.string.isRequired,
-//   onReset: PropTypes.func.isRequired
-// }
+class UserCredentials extends React.Component {
+    constructor (props) {
+      super(props);
+
+      this.state = {
+        userID: "",
+        accessToken: ""
+      }
+
+      this.handleUIDChange = this.handleUIDChange.bind(this);
+      this.handleAccessTokenChange = this.handleAccessTokenChange.bind(this);
+    }
+
+    handleUIDChange(event) {
+      var value = event.target.value;
+      this.setState(function() {
+        return (
+          {userID: value}
+        )
+      });
+    }
+    handleAccessTokenChange(event) {
+      var value = event.target.value;
+      this.setState(function () {
+        return (
+          {accessToken: value}
+        )
+      })
+    }
+    handleSubmit (event) {
+      event.preventDefault();
+      this.props.onSubmit(this.state.userId, this.state.accessToken);
+    }
+
+    render() {
+
+      return (
+        <form className="column" onSubmit={this.handleSubmit}>
+          <h3>Github Needs Some Credentials</h3>
+          <label className="header" htmlFor="user-id">
+            Github User Id
+          </label>
+          <input
+            id="user-id"
+            placeholder="Github Id"
+            type="text"
+            autoComplete="off"
+            value={this.state.userID}
+            onChange={this.handleUIDChange}
+          />
+          <label className="header" htmlFor="access-token">
+            User Access Token
+          </label>
+          <input
+            id="user-id"
+            placeholder="access token"
+            type="text"
+            autoComplete="off"
+            value={this.state.accessToken}
+            onChange={this.handleAccessTokenChange}
+          />
+
+          <button className="button" type="submit" disabled={!this.state.userID && !this.state.accessToken}>
+            Submit
+          </button>
+        </form>
+      )
+    }
+} // End class UserCredentials
+
+UserCredentials.propTypes = {
+  onSubmit: PropTypes.func.isRequired
+}
 
 class PlayerInput extends React.Component {
   constructor(props) {
@@ -88,7 +137,10 @@ class Battle extends React.Component {
       playerOneName: "",
       playerTwoName: "",
       playerOneImage: null,
-      playerTwoImage: null
+      playerTwoImage: null,
+
+      userGithubID: null,
+      userAccessKey: null,
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -121,6 +173,8 @@ class Battle extends React.Component {
     var playerTwoName = this.state.playerTwoName;
     var playerOneImage = this.state.playerOneImage;
     var playerTwoImage = this.state.playerTwoImage;
+    var userGithubID   = this.state.userGithubID;
+    var userAccessKey  = this.state.userAccessKey;
 
     return (
       <div>
@@ -156,7 +210,10 @@ class Battle extends React.Component {
               </PlayerPreview>}
         </div>
 
-        {playerOneImage && playerTwoImage &&
+        // userGithubID
+        // userAccessKey
+
+        {playerOneImage && playerTwoImage && userGithubID && userAccessKey &&
           <Link
             className="button"
             to={{
